@@ -31,7 +31,7 @@ public class IND_Model implements AutoCloseable{
             System.out.println("Database Exception1" + e.getMessage());
         }
 
-//        getNodeEdgeVar();
+
     }
 
     private void searchPattern(String pString){
