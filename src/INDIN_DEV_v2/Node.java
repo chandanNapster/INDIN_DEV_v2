@@ -8,6 +8,10 @@ public class Node {
     private String channel;
     private String implementationType;
 
+    public Node(){
+
+    }
+
     public Node(String name, String api, String channel, String implementationType){
         this.name = name;
         if(api == "null"){ this.api = "EMPTY";}

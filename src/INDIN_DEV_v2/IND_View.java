@@ -19,6 +19,7 @@ public class IND_View extends JPanel {
     private JButton searchPattern;
     private JList queryResults;
     private ScrollPane scrollPane;
+    private JRadioButton filter;
 
     public IND_View(){
         super(new BorderLayout());

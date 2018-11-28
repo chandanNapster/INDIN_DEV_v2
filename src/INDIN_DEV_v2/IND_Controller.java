@@ -16,7 +16,7 @@ public class IND_Controller {
         /**
          * MODEL INITIALIZATION
          */
-        model = new IND_Model("bolt://localhost:7687",
+        model = new IND_Model("bolt://localhost:11004",
                 "neo4j",
                 "chandan");
         /**
