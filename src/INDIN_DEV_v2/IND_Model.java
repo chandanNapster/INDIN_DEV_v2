@@ -31,7 +31,7 @@ public class IND_Model implements AutoCloseable{
             System.out.println("Database Exception1" + e.getMessage());
         }
 
-//        getNodeEdgeVar();
+
     }
 
     private void searchPattern(String pString){
@@ -158,37 +158,6 @@ public class IND_Model implements AutoCloseable{
         searchPattern(pString);
     }
 
-//    public String getString(String patternString){
-//        pString = patternString;
-//        return patternString;
-//    }
-
-//    private ArrayList<Character> getNodeEdgeVar(){
-//
-//        //char[] ch =
-//        char[] ch = pString.toCharArray();
-//        nodeEdgeVar = new ArrayList();
-//
-//        for(int i =0; i < ch.length; i++){
-//            if(ch[i] == '(' || ch[i] == ')' ||
-//                    ch[i] == '-' ||
-//                    ch[i] == '>' ||
-//                    ch[i] == '<' ||
-//                    ch[i] == '[' ||
-//                    ch[i] == ']'){
-//                continue;
-//            }
-//            else{
-//                nodeEdgeVar.add(ch[i]);
-//            }
-//        }
-//
-//        for(Character ch1 : nodeEdgeVar){
-//            System.out.println(ch1);
-//        }
-//
-//        return nodeEdgeVar;
-//    }
 
 
     @Override
