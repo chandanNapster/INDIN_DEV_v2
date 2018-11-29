@@ -1,3 +1,7 @@
+/***
+ * Author: Chandan_Sharma
+ */
+
 package INDIN_DEV_v2;
 
 import javax.swing.*;
@@ -5,8 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-
 public class IND_Controller {
     private static IND_Model model;
     private static IND_View view;
@@ -15,20 +17,16 @@ public class IND_Controller {
     private ArrayList<Edge> edgeList;
     private ArrayList<Object> obj = new ArrayList<>();
 
-
     public IND_Controller(){
         /**
          * MODEL INITIALIZATION
          */
         model = new IND_Model("bolt://localhost:11004",
-                "neo4j",
-                "chandan");
+                                "neo4j",
+                                "chandan");
         /**
          * VIEW INITIALIZATION
          */
-
-
-
         view = new IND_View();
         JFrame frame = new JFrame("INDIN GUI");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,22 +35,17 @@ public class IND_Controller {
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(new Point((d.width/2) - (frame.getWidth()/2),(d.height/2) - frame.getHeight()/2));
         frame.setVisible(true);
-
-        //IND_Controller i = new IND_Controller();
     }
 
     public void addListeners(){
-
         nodeList = new ArrayList();
         edgeList = new ArrayList();
         view.addIND_ViewListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource() == view.getButtonInfo()){
-                    System.out.println("search");
-                    System.out.println(view.JTextFieldString());
                     searchString = view.JTextFieldString();
-                    obj = model.searchPat(searchString);
+                    obj = model.searchPattern(searchString);
                     for(Object o : obj) {
                         if (o instanceof INDIN_DEV_v2.Node) {
                             nodeList.add((Node) o);
@@ -65,8 +58,8 @@ public class IND_Controller {
                         for (Node node : nodeList) {
                             for (Edge edge : edgeList) {
                                 if (node.getRelRef() == edge.getRelRef()) {
-                                    node.nodeTest();
-                                    edge.edgeTest();
+                                    System.out.println(node.toString());
+                                    System.out.println(edge.toString());
                                     System.out.println("");
                                 }
                             }
@@ -74,7 +67,7 @@ public class IND_Controller {
                     }
                     else{
                         for(Node node: nodeList){
-                            node.nodeTest();
+                            System.out.println(node.toString());
                         }
                     }
                 }
@@ -82,14 +75,11 @@ public class IND_Controller {
         });
     }
 
-
-
     public static void main(String[] arg) throws Exception {
         IND_Controller controller = new IND_Controller();
         // System.out.println(model.getDriver());
         //model.close();
         controller.addListeners();
         model.close();
-
     }
 }
