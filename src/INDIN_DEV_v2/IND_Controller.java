@@ -61,14 +61,20 @@ public class IND_Controller {
                             edgeList.add((Edge) o);
                         }
                     }
-                    for(Node node: nodeList){
-                        for(Edge edge : edgeList){
-                            if(node.getRelRef() == edge.getRelRef()){
-                                System.out.println("The id is: " + edge.getRelRef() + "::" + node.getRelRef());
-                                node.nodeTest();
-                                edge.edgeTest();
-                                System.out.println("------------------------------------");
+                    if(!edgeList.isEmpty()) {
+                        for (Node node : nodeList) {
+                            for (Edge edge : edgeList) {
+                                if (node.getRelRef() == edge.getRelRef()) {
+                                    node.nodeTest();
+                                    edge.edgeTest();
+                                    System.out.println("");
+                                }
                             }
+                        }
+                    }
+                    else{
+                        for(Node node: nodeList){
+                            node.nodeTest();
                         }
                     }
                 }

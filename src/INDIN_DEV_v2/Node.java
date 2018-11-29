@@ -30,7 +30,7 @@ public class Node {
     }
 
     public void nodeTest(){
-        System.out.println(this.name);
+        System.out.println(this.name + " : " + this.relRef);
     }
 
 

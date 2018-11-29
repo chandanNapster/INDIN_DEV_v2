@@ -15,7 +15,7 @@ public class Edge {
     }
 
     public void edgeTest(){
-        System.out.println("Weight " + value);
+        System.out.println("Weight " + value + " : " + this.relRef);
     }
     public String toString(){
         return "Weight" + "->" + value + ":" + relRef;
