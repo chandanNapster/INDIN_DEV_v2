@@ -4,12 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 public class IND_Controller {
     private static IND_Model model;
     private static IND_View view;
     private String searchString;
+    private ArrayList<Node> nodeList;
+    private ArrayList<Edge> edgeList;
+    private ArrayList<Object> obj = new ArrayList<>();
 
 
     public IND_Controller(){
@@ -22,6 +26,9 @@ public class IND_Controller {
         /**
          * VIEW INITIALIZATION
          */
+
+
+
         view = new IND_View();
         JFrame frame = new JFrame("INDIN GUI");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,6 +42,9 @@ public class IND_Controller {
     }
 
     public void addListeners(){
+
+        nodeList = new ArrayList();
+        edgeList = new ArrayList();
         view.addIND_ViewListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -42,13 +52,29 @@ public class IND_Controller {
                     System.out.println("search");
                     System.out.println(view.JTextFieldString());
                     searchString = view.JTextFieldString();
-                    model.searchPat(searchString);
+                    obj = model.searchPat(searchString);
+                    for(Object o : obj) {
+                        if (o instanceof INDIN_DEV_v2.Node) {
+                            nodeList.add((Node) o);
+                        }
+                        else if(o instanceof INDIN_DEV_v2.Edge){
+                            edgeList.add((Edge) o);
+                        }
+                    }
+                    for(Node node: nodeList){
+                        for(Edge edge : edgeList){
+                            if(node.getRelRef() == edge.getRelRef()){
+                                System.out.println("The id is: " + edge.getRelRef() + "::" + node.getRelRef());
+                                node.nodeTest();
+                                edge.edgeTest();
+                                System.out.println("------------------------------------");
+                            }
+                        }
+                    }
                 }
-
             }
         });
     }
-
 
 
 
