@@ -17,7 +17,7 @@ public class Node {
     public Node(String name, String api, String channel, String implementationType, int relRef){
         this.name = name;
         this.relRef = relRef;
-        if(api == null){ this.api = "EMPTY";}
+        if(api == "null"){ this.api = "EMPTY";}
         else{this.api = api;}
         if(channel == "null"){this.channel = "EMPTY";}
         else {this.channel = channel;}

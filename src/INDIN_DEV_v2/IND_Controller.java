@@ -1,7 +1,6 @@
-/***
+/**
  * Author: Chandan_Sharma
  */
-
 package INDIN_DEV_v2;
 
 import javax.swing.*;
@@ -9,22 +8,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 public class IND_Controller {
     private static IND_Model model;
     private static IND_View view;
-    private String searchString;
-    private ArrayList<Node> nodeList;
-    private ArrayList<Edge> edgeList;
-    private ArrayList<Object> obj = new ArrayList<>();
+    private String patternString;
+    private ArrayList<INDIN_DEV_v2.Node> nodeList;
+    private ArrayList<INDIN_DEV_v2.Edge> edgeList;
+    private ArrayList<Object> object = new ArrayList<>();
 
-    public IND_Controller(){
-        /**
+    private IND_Controller(){
+        /*
          * MODEL INITIALIZATION
          */
         model = new IND_Model("bolt://localhost:11004",
                                 "neo4j",
                                 "chandan");
-        /**
+        /*
          * VIEW INITIALIZATION
          */
         view = new IND_View();
@@ -37,21 +37,21 @@ public class IND_Controller {
         frame.setVisible(true);
     }
 
-    public void addListeners(){
-        nodeList = new ArrayList();
-        edgeList = new ArrayList();
+    private void addListeners(){
+        nodeList = new ArrayList<>();
+        edgeList = new ArrayList<>();
         view.addIND_ViewListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource() == view.getButtonInfo()){
-                    searchString = view.JTextFieldString();
-                    obj = model.searchPattern(searchString);
-                    for(Object o : obj) {
-                        if (o instanceof INDIN_DEV_v2.Node) {
-                            nodeList.add((Node) o);
+                    patternString = view.JTextFieldString();
+                    object = model.searchPattern(patternString);
+                    for(Object obj: object) {
+                        if (obj instanceof INDIN_DEV_v2.Node) {
+                            nodeList.add((Node) obj);
                         }
-                        else if(o instanceof INDIN_DEV_v2.Edge){
-                            edgeList.add((Edge) o);
+                        else if(obj instanceof INDIN_DEV_v2.Edge){
+                            edgeList.add((Edge) obj);
                         }
                     }
                     if(!edgeList.isEmpty()) {
@@ -60,7 +60,7 @@ public class IND_Controller {
                                 if (node.getRelRef() == edge.getRelRef()) {
                                     System.out.println(node.toString());
                                     System.out.println(edge.toString());
-                                    System.out.println("");
+                                    System.out.println("--------");
                                 }
                             }
                         }
@@ -80,6 +80,6 @@ public class IND_Controller {
         // System.out.println(model.getDriver());
         //model.close();
         controller.addListeners();
-        model.close();
+        //model.close();
     }
 }

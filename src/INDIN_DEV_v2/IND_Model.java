@@ -12,8 +12,8 @@ import java.util.*;
 public class IND_Model implements AutoCloseable{
 
     private Driver driver;
-    private String pString;
-    private ArrayList<Object> graphData;
+    private String patternString;
+    private ArrayList<Object> subGraphData;
     private Set<String> nodeKeys;
     private Set<String> edgeKeys;
 
@@ -25,44 +25,43 @@ public class IND_Model implements AutoCloseable{
             System.out.println("Database Exception1" + e.getMessage());
         }
     }
-
     //todo look at how can we incorporate the filter functions
     //todo the filter function will be a bit different than the current search pattern function
-    public ArrayList<Object> searchPattern(String pString){
-        this.pString = pString;
-        graphData = new ArrayList<>();
+    public ArrayList<Object> searchPattern(String patternString){
+        this.patternString = patternString;
+        subGraphData = new ArrayList<>();
         try(Session session = driver.session(AccessMode.READ)) {
-            StatementResult result = session.run("MATCH " + pString +
+            StatementResult result = session.run("MATCH " + patternString +
                                                     " WHERE 1 = 1 "  +
                                                     " RETURN *");
-            List<String> keys = result.keys();
+            List<String> Keys = result.keys();
             int relationshipRef = 0;
             for(Record record :result.list()){
                 relationshipRef++;
-                for(int i =0; i < keys.size(); i++) {
+                for(String keys: Keys) {
                     if(record.asMap()
-                            .get(keys.get(i))
+                            .get(keys)
                             .toString()
                             .substring(0,1)
                             .equals("n")){
-                        Node node = record.get(keys.get(i)).asNode();
+                        Node node = record.get(keys).asNode();
                         INDIN_DEV_v2.Node n = new INDIN_DEV_v2.Node(
                                 node.get("name").asString(),
                                 node.get("apiClient").asString(),
                                 node.get("channel").asString(),
                                 node.get("implementationType").asString(),
                                 relationshipRef);
-                        graphData.add(n);
+                        subGraphData.add(n);
                     }
                     else if (record.asMap()
-                            .get(keys.get(i))
+                            .get(keys)
                             .toString()
                             .substring(0,1)
                             .equals("r")){
-                        Relationship rel = record.get(keys.get(i)).asRelationship();
+                        Relationship rel = record.get(keys).asRelationship();
                         INDIN_DEV_v2.Edge e = new INDIN_DEV_v2.Edge(
                                 rel.get("value").asInt(), relationshipRef);
-                        graphData.add(e);
+                        subGraphData.add(e);
                     }
                 }
             }
@@ -70,12 +69,12 @@ public class IND_Model implements AutoCloseable{
         catch(Exception e){
             System.out.println(e.getMessage());
         }
-        return graphData;
+        return subGraphData;
     }
 
     private void searchKeys(){
         try(Session session = driver.session(AccessMode.READ)){
-            StatementResult result = session.run("MATCH" + pString +
+            StatementResult result = session.run("MATCH" + patternString +
                     " RETURN * LIMIT 5");
             List<String> keys = result.keys();
             nodeKeys = new HashSet();
@@ -103,6 +102,6 @@ public class IND_Model implements AutoCloseable{
 
     @Override
     public void close() throws Exception {
-        //driver.close();
+        driver.close();
     }
 }
