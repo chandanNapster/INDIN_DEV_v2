@@ -35,32 +35,39 @@ public class IND_Model implements AutoCloseable{
                                                     " WHERE 1 = 1 "  +
                                                     " RETURN *");
             List<String> Keys = result.keys();
+
+
+
+
             int relationshipRef = 0;
             for(Record record :result.list()){
                 relationshipRef++;
-                for(String keys: Keys) {
+                for(String key: Keys) {
                     if(record.asMap()
-                            .get(keys)
+                            .get(key)
                             .toString()
                             .substring(0,1)
                             .equals("n")){
-                        Node node = record.get(keys).asNode();
+                        Node node = record.get(key).asNode();
                         INDIN_DEV_v2.Node n = new INDIN_DEV_v2.Node(
                                 node.get("name").asString(),
                                 node.get("apiClient").asString(),
                                 node.get("channel").asString(),
                                 node.get("implementationType").asString(),
-                                relationshipRef);
+                                relationshipRef,
+                                key);
                         subGraphData.add(n);
                     }
                     else if (record.asMap()
-                            .get(keys)
+                            .get(key)
                             .toString()
                             .substring(0,1)
                             .equals("r")){
-                        Relationship rel = record.get(keys).asRelationship();
+                        Relationship rel = record.get(key).asRelationship();
                         INDIN_DEV_v2.Edge e = new INDIN_DEV_v2.Edge(
-                                rel.get("value").asInt(), relationshipRef);
+                                rel.get("value").asInt(),
+                                relationshipRef,
+                                key);
                         subGraphData.add(e);
                     }
                 }
@@ -69,6 +76,9 @@ public class IND_Model implements AutoCloseable{
         catch(Exception e){
             System.out.println(e.getMessage());
         }
+
+
+
         return subGraphData;
     }
 

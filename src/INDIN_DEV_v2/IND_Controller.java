@@ -17,6 +17,7 @@ public class IND_Controller {
     private ArrayList<INDIN_DEV_v2.Edge> edgeList;
     private ArrayList<Object> object = new ArrayList<>();
 
+
     private IND_Controller(){
         /*
          * MODEL INITIALIZATION
@@ -40,12 +41,14 @@ public class IND_Controller {
     private void addListeners(){
         nodeList = new ArrayList<>();
         edgeList = new ArrayList<>();
+
         view.addIND_ViewListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource() == view.getButtonInfo()){
                     patternString = view.JTextFieldString();
                     object = model.searchPattern(patternString);
+                    ArrayList<QueryResult> queryResultsList = new ArrayList();
                     for(Object obj: object) {
                         if (obj instanceof INDIN_DEV_v2.Node) {
                             nodeList.add((Node) obj);
@@ -55,20 +58,31 @@ public class IND_Controller {
                         }
                     }
                     if(!edgeList.isEmpty()) {
-                        for (Node node : nodeList) {
-                            for (Edge edge : edgeList) {
-                                if (node.getRelRef() == edge.getRelRef()) {
-                                    System.out.println(node.toString());
-                                    System.out.println(edge.toString());
-                                    System.out.println("--------");
+                        Node firstNode = null;
+                        Node secondNode = null;
+                        for (Edge edge : edgeList) {
+                            for (Node node : nodeList) {
+                                if(edge.getRelRef() == node.getRelRef()){
+                                    if(firstNode == null){
+                                        firstNode = node;
+                                    }
+                                    else if(secondNode == null){
+                                        secondNode = node;
+                                    }
                                 }
                             }
+                            queryResultsList.add(new QueryResult(firstNode,secondNode,edge));
+                            firstNode = null;
+                            secondNode = null;
                         }
                     }
                     else{
                         for(Node node: nodeList){
                             System.out.println(node.toString());
                         }
+                    }
+                    for (QueryResult result: queryResultsList) {
+                        System.out.println(result.toString());
                     }
                 }
             }

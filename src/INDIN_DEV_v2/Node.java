@@ -9,13 +9,20 @@ public class Node {
     private String channel;
     private String implementationType;
     private int relRef;
+    private String key;
 
     public Node(){
 
     }
 
-    public Node(String name, String api, String channel, String implementationType, int relRef){
+    public Node(String name,
+                String api,
+                String channel,
+                String implementationType,
+                int relRef,
+                String key){
         this.name = name;
+        this.key = key;
         this.relRef = relRef;
         if(api == "null"){ this.api = "EMPTY";}
         else{this.api = api;}
@@ -36,7 +43,7 @@ public class Node {
 
 
     public String toString(){
-        return name + "|" + api +"|"+ channel +"|" + implementationType + ":" + relRef ;
+        return key + " --> " + name + " | " + api +" | "+ channel +" | " + implementationType + " | " + relRef ;
     }
 
 

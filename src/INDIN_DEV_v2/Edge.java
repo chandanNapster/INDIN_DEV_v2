@@ -7,10 +7,14 @@ public class Edge {
 
     private int value;
     private int relRef;
+    private String key;
 
-    public Edge(int value, int relRef){
+    public Edge(int value,
+                int relRef,
+                String key){
         this.relRef = relRef;
         this.value = value;
+        this.key = key;
     }
 
     public int getRelRef(){
@@ -21,7 +25,7 @@ public class Edge {
         System.out.println("Weight " + value + " : " + this.relRef);
     }
     public String toString(){
-        return "Weight" + "->" + value + ":" + relRef;
+        return key + " --> " + "Weight" + "->" + value + ":" + relRef;
     }
 
 }
