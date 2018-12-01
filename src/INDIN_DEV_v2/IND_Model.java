@@ -33,11 +33,14 @@ public class IND_Model implements AutoCloseable{
         try(Session session = driver.session(AccessMode.READ)) {
             StatementResult result = session.run("MATCH " + patternString +
                                                     " WHERE 1 = 1 "  +
-                                                    " RETURN *");
+                                                    " RETURN * LIMIT 1");
             List<String> Keys = result.keys();
 
+//            List<Record> r = result.list();
 
-
+//            for(Record record: r){
+//                System.out.println(record.asMap());
+//            }
 
             int relationshipRef = 0;
             for(Record record :result.list()){

@@ -11,11 +11,13 @@ import java.util.ArrayList;
 
 public class IND_Controller {
     private static IND_Model model;
-    private static IND_View view;
+    private static IND_View_v2 view;
     private String patternString;
     private ArrayList<INDIN_DEV_v2.Node> nodeList;
     private ArrayList<INDIN_DEV_v2.Edge> edgeList;
-    private ArrayList<Object> object = new ArrayList<>();
+    private ArrayList<Object> object;
+    private ArrayList<QueryResult> queryResultsList;
+    private  boolean drawJList = false;
 
 
     private IND_Controller(){
@@ -28,10 +30,9 @@ public class IND_Controller {
         /*
          * VIEW INITIALIZATION
          */
-        view = new IND_View();
+        view = new IND_View_v2();
         JFrame frame = new JFrame("INDIN GUI");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(view);
+        frame.getContentPane().add(view.getMainPanel());
         frame.pack();
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(new Point((d.width/2) - (frame.getWidth()/2),(d.height/2) - frame.getHeight()/2));
@@ -41,14 +42,14 @@ public class IND_Controller {
     private void addListeners(){
         nodeList = new ArrayList<>();
         edgeList = new ArrayList<>();
-
         view.addIND_ViewListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(e.getSource() == view.getButtonInfo()){
+                if(e.getSource() == view.getsearchButton()){
                     patternString = view.JTextFieldString();
+                    object = new ArrayList<>();
                     object = model.searchPattern(patternString);
-                    ArrayList<QueryResult> queryResultsList = new ArrayList();
+                    queryResultsList = new ArrayList();
                     for(Object obj: object) {
                         if (obj instanceof INDIN_DEV_v2.Node) {
                             nodeList.add((Node) obj);
@@ -81,9 +82,20 @@ public class IND_Controller {
                             System.out.println(node.toString());
                         }
                     }
-                    for (QueryResult result: queryResultsList) {
-                        System.out.println(result.toString());
+                    drawJList = true;
+                    DefaultListModel<QueryResult> resultsList = new DefaultListModel<>();
+                    for (QueryResult queryResult: queryResultsList) {
+                        resultsList.addElement(queryResult);
                     }
+                    view.getResultList().setModel(resultsList);
+                }
+                else if(e.getSource() == view.getCloseDBconnectionButton()){
+                    try {
+                        model.close();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                    System.exit(0);
                 }
             }
         });
@@ -94,6 +106,8 @@ public class IND_Controller {
         // System.out.println(model.getDriver());
         //model.close();
         controller.addListeners();
+
+//todo i need to re call the view here.
         //model.close();
     }
 }
