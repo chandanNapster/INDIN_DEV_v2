@@ -3,11 +3,14 @@
  */
 package INDIN_DEV_v2;
 
+import org.neo4j.driver.v1.Record;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 public class IND_Controller {
     private static IND_Model model;
@@ -15,7 +18,7 @@ public class IND_Controller {
     private String patternString;
     private ArrayList<INDIN_DEV_v2.Node> nodeList;
     private ArrayList<INDIN_DEV_v2.Edge> edgeList;
-    private ArrayList<Object> object;
+    private List<Record> resultList;
     private ArrayList<QueryResult> queryResultsList;
     private  boolean drawJList = false;
 
@@ -48,47 +51,19 @@ public class IND_Controller {
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource() == view.getsearchButton()){
                     patternString = view.JTextFieldString();
-                    object = new ArrayList<>();
-                    object = model.searchPattern(patternString);
-                    queryResultsList = new ArrayList();
-                    for(Object obj: object) {
-                        if (obj instanceof INDIN_DEV_v2.Node) {
-                            nodeList.add((Node) obj);
-                        }
-                        else if(obj instanceof INDIN_DEV_v2.Edge){
-                            edgeList.add((Edge) obj);
-                        }
+                    resultList = new ArrayList<>();
+                    resultList = model.searchPattern(patternString);
+//                    for(Record record: resultList){
+//                        System.out.println(record.asMap());
+//                    }
+//                    System.out.println("----------------------");
+                    DefaultListModel<Map<String, Object>>
+                            recordDefaultListModel = new DefaultListModel();
+                    for(Record record: resultList){
+                        recordDefaultListModel.addElement(record.asMap());
                     }
-                    if(!edgeList.isEmpty()) {
-                        Node firstNode = null;
-                        Node secondNode = null;
-                        for (Edge edge : edgeList) {
-                            for (Node node : nodeList) {
-                                if(edge.getRelRef() == node.getRelRef()){
-                                    if(firstNode == null){
-                                        firstNode = node;
-                                    }
-                                    else if(secondNode == null){
-                                        secondNode = node;
-                                    }
-                                }
-                            }
-                            queryResultsList.add(new QueryResult(firstNode,secondNode,edge));
-                            firstNode = null;
-                            secondNode = null;
-                        }
-                    }
-                    else{
-                        for(Node node: nodeList){
-                            System.out.println(node.toString());
-                        }
-                    }
-                    drawJList = true;
-                    DefaultListModel<QueryResult> resultsList = new DefaultListModel<>();
-                    for (QueryResult queryResult: queryResultsList) {
-                        resultsList.addElement(queryResult);
-                    }
-                    view.getResultList().setModel(resultsList);
+                    view.getResultList().setModel(recordDefaultListModel);
+//(a)-[r]->(b)<-[f]-(d)
                 }
                 else if(e.getSource() == view.getCloseDBconnectionButton()){
                     try {
