@@ -32,6 +32,7 @@ public class IND_Controller {
          */
         view = new IND_View_v2();
         JFrame frame = new JFrame("INDIN GUI");
+
         frame.getContentPane().add(view.getMainPanel());
         frame.pack();
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -102,6 +103,12 @@ public class IND_Controller {
     }
 
     public static void main(String[] arg) throws Exception {
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+        }
+        catch(Exception ignored){
+
+        }
         IND_Controller controller = new IND_Controller();
         // System.out.println(model.getDriver());
         //model.close();

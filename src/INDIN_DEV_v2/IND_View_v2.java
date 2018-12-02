@@ -3,18 +3,20 @@ package INDIN_DEV_v2;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+
 
 public class IND_View_v2 {
     private JPanel MainPanel;
-    private JPanel searchBarPanel;
+    private JPanel MenuPanel;
     private JTextField queryField;
     private JPanel buttonPanel;
     private JButton searchButton;
     private JPanel resultsPanel;
     private JButton closeDBconnection;
     private JList resultList;
-    private ArrayList<QueryResult> queryResultsList;
+    private JPanel serachPanel;
+    private JPanel SubmenuPanel;
+
 
     public JPanel getMainPanel(){
         return this.MainPanel;
