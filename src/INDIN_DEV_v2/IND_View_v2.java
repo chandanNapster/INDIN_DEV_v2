@@ -16,6 +16,10 @@ public class IND_View_v2 {
     private JList resultList;
     private JPanel serachPanel;
     private JPanel SubmenuPanel;
+    private JPanel ResultSheet;
+    private JTextArea HeaderArea;
+    private JList resultListHeader;
+
 
 
     public JPanel getMainPanel(){
@@ -26,7 +30,12 @@ public class IND_View_v2 {
         return this.resultList;
     }
 
+    public JList getResultListHeader(){
+        return this.resultListHeader;
+    }
+
     public void addIND_ViewListener(ActionListener listener){
+
         searchButton.addActionListener(listener);
         closeDBconnection.addActionListener(listener);
     }
@@ -38,5 +47,13 @@ public class IND_View_v2 {
     public String JTextFieldString(){
         return queryField.getText();
     }
+
+    public void setHeaderArea(String header){
+            HeaderArea.append(header + "|");
+    }
+
+//    public void deleteHeaerArea(String header){
+//        header.replaceAll(header, "");
+//    }
 
 }

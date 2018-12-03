@@ -46,7 +46,7 @@ public class IND_Model implements AutoCloseable{
                     recordString = propMap.get(key).next().toString();
                     sb.append(key +"."+recordString)
                             .append(" AS ")
-                            .append(key+recordString.toUpperCase())
+                            .append(key.toUpperCase()+recordString)
                             .append(" , ");
                 }
 
@@ -57,14 +57,15 @@ public class IND_Model implements AutoCloseable{
    }
 
     public List<Record> searchPattern(String patternString){
+        //this.patternString = patternString;
         String testString = testLogic(patternString);
         StatementResult result = null;
-        this.patternString = patternString;
-        subGraphData = new ArrayList<>();
+
+
         try(Session session = driver.session(AccessMode.READ)) {
             result = session.run("MATCH " + patternString +
                     " WHERE 1 = 1 " +
-                    " RETURN " + testString + " 1 " + " LIMIT 5"); // passing a value 1 because
+                    " RETURN " + testString + " 1 " ); // passing a value 1 because
                                                                     // i was getting an extra comma in the end.
         }
         return result.list();
