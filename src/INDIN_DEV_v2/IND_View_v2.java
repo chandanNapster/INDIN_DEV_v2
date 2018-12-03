@@ -18,6 +18,7 @@ public class IND_View_v2 {
     private JPanel SubmenuPanel;
     private JPanel ResultSheet;
     private JTextArea HeaderArea;
+    private JScrollPane scrollPane;
     private JList resultListHeader;
 
 
@@ -50,6 +51,10 @@ public class IND_View_v2 {
 
     public void setHeaderArea(String header){
             HeaderArea.append(header + "|");
+    }
+
+    public JScrollPane getJScrollpane(){
+        return this.scrollPane;
     }
 
 //    public void deleteHeaerArea(String header){

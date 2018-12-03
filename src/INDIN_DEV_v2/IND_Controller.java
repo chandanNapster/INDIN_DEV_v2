@@ -45,6 +45,8 @@ public class IND_Controller {
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(new Point((d.width/2) - (frame.getWidth()/2),(d.height/2) - frame.getHeight()/2));
         frame.setVisible(true);
+        JScrollPane scroll = new JScrollPane();
+
     }
 
     private void addListeners(){
@@ -67,13 +69,13 @@ public class IND_Controller {
                         resultHeader = record.keys();
                         break;
                     }
-                    if(setHeader) {
-                        for (String head : resultHeader) {
-                            //System.out.println(head);
-                            view.setHeaderArea(head);
-                        }
-                    }
-                    setHeader = false;
+//                    if(setHeader) {
+//                        for (String head : resultHeader) {
+//                            //System.out.println(head);
+//                            view.setHeaderArea(head);
+//                        }
+//                    }
+//                    setHeader = false;
 
                     List<List<Value>> recordVal = new ArrayList<>();
 
@@ -88,7 +90,7 @@ public class IND_Controller {
                     for(int i =0 ; i < recordVal.size(); i++){
                         //System.out.println(recordVal.elementAt(i).get(i).asString());
                         StringBuilder sb = new StringBuilder();
-                        for(int j = 0; j < recordVal.get(i).size(); j++){
+                        for(int j = 0; j < recordVal.get(i).size() - 1; j++){
                             //System.out.println(recordVal.elementAt(i).get(j).toString().replace('"', ' '));
                             String s1 = recordVal.get(i).get(j).toString().replace('"', ' ') + " | ";
                             sb.append(s1);
@@ -99,7 +101,19 @@ public class IND_Controller {
 
 
 
+
                     DefaultListModel<String> toAddArrayList = new DefaultListModel();
+
+//                    for(String header1: resultHeader){
+//                        toAddArrayList.addElement(header1);
+//                    }
+                    StringBuilder sb1 = new StringBuilder();
+                    for(String header1: resultHeader){
+                        sb1.append(header1).append(" ");
+                    }
+
+                    toAddArrayList.addElement(sb1.toString());
+
                     for(String s : toAddList){
                         toAddArrayList.addElement(s);
                     }
@@ -123,12 +137,16 @@ public class IND_Controller {
     }
 
     public static void main(String[] arg) throws Exception {
-        try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-        }
-        catch(Exception ignored){
-
-        }
+//        Dimension scrollPaneSize = view.getJScrollpane().getSize();
+//        int scrollPaneSizeWidth = scrollPaneSize.width;
+//        try {
+//            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+//            UIManager.put("ScrollBar.width", scrollPaneSizeWidth);
+//            view.getJScrollpane().setVerticalScrollBarPolicy(view.getJScrollpane().createVerticalScrollBar());
+//        }
+//        catch(Exception ignored){
+//
+//        }
         IND_Controller controller = new IND_Controller();
         // System.out.println(model.getDriver());
         //model.close();
