@@ -10,10 +10,6 @@ import java.util.*;
 public class IND_Model implements AutoCloseable{
 
     private Driver driver;
-    private String patternString;
-    private ArrayList<Object> subGraphData;
-    private Set<String> nodeKeys;
-    private Set<String> edgeKeys;
 
     public IND_Model(String uri, String user, String password){
         try {
@@ -24,8 +20,8 @@ public class IND_Model implements AutoCloseable{
         }
     }
 
-
-   public String testLogic(String patternString) {
+   public String getDBProperties(String patternString) {
+       StringBuilder sb = new StringBuilder();
        try (Session session = driver.session(AccessMode.READ)) {
            StatementResult result = session.run("MATCH " + patternString +
                    " WHERE 1 = 1 " +
@@ -38,7 +34,6 @@ public class IND_Model implements AutoCloseable{
                }
            }
 
-           StringBuilder sb = new StringBuilder();
            String filterString = "";
             for(String key: propMap.keySet()){
                 while(propMap.get(key).hasNext()){
@@ -49,7 +44,6 @@ public class IND_Model implements AutoCloseable{
                             .append(key.toUpperCase()+recordString)
                             .append(" , ");
                 }
-
             }
            filterString = sb.toString();
            return filterString;
@@ -57,46 +51,17 @@ public class IND_Model implements AutoCloseable{
    }
 
     public List<Record> searchPattern(String patternString){
-        //this.patternString = patternString;
-        String testString = testLogic(patternString);
+        String testString = getDBProperties(patternString);
         StatementResult result = null;
-
-
         try(Session session = driver.session(AccessMode.READ)) {
             result = session.run("MATCH " + patternString +
                     " WHERE 1 = 1 " +
-                    " RETURN " + testString + " 1 " ); // passing a value 1 because
-                                                                    // i was getting an extra comma in the end.
+                    " RETURN " +
+                    testString + " 1 " +
+                    "ORDER BY 1" ); // passing a value 1 because
+                                    // i was getting an extra comma in the end.
         }
         return result.list();
-    }
-
-    private void searchKeys(){
-        try(Session session = driver.session(AccessMode.READ)){
-            StatementResult result = session.run("MATCH" + patternString +
-                    " RETURN * LIMIT 5");
-            List<String> keys = result.keys();
-            nodeKeys = new HashSet();
-            edgeKeys = new HashSet();
-            for(Record record :result.list()){
-                for(int i =0; i < keys.size(); i++) {
-                    if(record.asMap()
-                            .get(keys.get(i))
-                            .toString()
-                            .substring(0,1)
-                            .equals("n")){
-                        nodeKeys.add(keys.get(i));
-                    }
-                    else if (record.asMap()
-                            .get(keys.get(i))
-                            .toString()
-                            .substring(0,1)
-                            .equals("r")){
-                        edgeKeys.add(keys.get(i));
-                    }
-                }
-            }
-        }
     }
 
     @Override

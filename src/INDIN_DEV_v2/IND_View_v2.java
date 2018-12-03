@@ -9,7 +9,6 @@ public class IND_View_v2 {
     private JPanel MainPanel;
     private JPanel MenuPanel;
     private JTextField queryField;
-    private JPanel buttonPanel;
     private JButton searchButton;
     private JPanel resultsPanel;
     private JButton closeDBconnection;
