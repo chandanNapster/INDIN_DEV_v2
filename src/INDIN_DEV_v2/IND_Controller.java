@@ -16,6 +16,7 @@ import java.util.List;
 public class IND_Controller {
     private static IND_Model model;
     private static IND_View_v2 view;
+    private static IND_View_v2 view2;
     private String patternString;
     private List<Record> resultList;
     private List<String> resultHeader;
@@ -37,9 +38,9 @@ public class IND_Controller {
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         Dimension d = Toolkit.getDefaultToolkit()
-                             .getScreenSize();
+                .getScreenSize();
         frame.setLocation(new Point((d.width/2) - (frame.getWidth()/2),
-                                    (d.height/2) - frame.getHeight()/2));
+                (d.height/2) - frame.getHeight()/2));
         frame.setVisible(true);
     }
 

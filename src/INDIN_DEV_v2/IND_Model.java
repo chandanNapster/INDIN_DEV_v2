@@ -57,7 +57,7 @@ public class IND_Model implements AutoCloseable{
             result = session.run("MATCH " + patternString +
                     " WHERE 1 = 1 " +
                     " RETURN DISTINCT " +
-                    testString + " true " +
+                    testString + " 1  " +
                     "ORDER BY 1" ); // passing a value 1 because
                                     // i was getting an extra comma in the end.
         }
