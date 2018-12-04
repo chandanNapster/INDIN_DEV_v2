@@ -56,8 +56,8 @@ public class IND_Model implements AutoCloseable{
         try(Session session = driver.session(AccessMode.READ)) {
             result = session.run("MATCH " + patternString +
                     " WHERE 1 = 1 " +
-                    " RETURN " +
-                    testString + " 1 " +
+                    " RETURN DISTINCT " +
+                    testString + " true " +
                     "ORDER BY 1" ); // passing a value 1 because
                                     // i was getting an extra comma in the end.
         }

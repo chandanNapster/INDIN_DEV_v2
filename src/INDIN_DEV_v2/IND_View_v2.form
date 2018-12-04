@@ -70,12 +70,6 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="30a13" class="javax.swing.JTextArea" binding="HeaderArea">
-                <constraints border-constraint="North"/>
-                <properties>
-                  <font name="DejaVu Sans Mono" size="12" style="1"/>
-                </properties>
-              </component>
               <scrollpane id="331af" binding="scrollPane">
                 <constraints border-constraint="Center"/>
                 <properties>

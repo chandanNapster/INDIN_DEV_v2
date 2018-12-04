@@ -32,10 +32,14 @@ public class IND_Controller {
          */
         view = new IND_View_v2();
         JFrame frame = new JFrame("INDIN GUI");
-        frame.getContentPane().add(view.getMainPanel());
+        frame.getContentPane()
+                .add(view.getMainPanel());
         frame.pack();
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(new Point((d.width/2) - (frame.getWidth()/2),(d.height/2) - frame.getHeight()/2));
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        Dimension d = Toolkit.getDefaultToolkit()
+                             .getScreenSize();
+        frame.setLocation(new Point((d.width/2) - (frame.getWidth()/2),
+                                    (d.height/2) - frame.getHeight()/2));
         frame.setVisible(true);
     }
 
@@ -52,6 +56,7 @@ public class IND_Controller {
                     ArrayList<String> toAddList = new ArrayList<>();
                     DefaultListModel<String> toAddArrayList = new DefaultListModel();
                     StringBuilder sb1 = new StringBuilder();
+                    StringBuilder sb2 = new StringBuilder();
 
                     for(Record record: resultList){
                         resultHeader = record.keys();
@@ -72,9 +77,21 @@ public class IND_Controller {
                         toAddList.add(sb.toString());
                     }
                     for(String header1: resultHeader){
-                        sb1.append(header1).append(" | ");
+                        System.out.println(header1);
+                        if(header1 != "true" ){
+                            sb1.append(header1).append(" | ");
+                        }
+                        else {
+                            continue;
+                        }
                     }
                     toAddArrayList.addElement(sb1.toString());
+
+                    for(String h: resultHeader){
+                        sb2.append("-----------");
+                    }
+                    toAddArrayList.addElement(sb2.toString());
+
                     for(String s : toAddList){
                         toAddArrayList.addElement(s);
                     }
